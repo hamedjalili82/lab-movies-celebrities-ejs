@@ -13,12 +13,13 @@ router.get("/create", (request, response) => {
     response.render("celebrities/new-celebrity")
 })
 
+
 router.post("/create", async (request, response) => {
     console.log(request.body)
-    const data = request.body
+    const newCelebData = request.body
 
     try {
-        const newCelebrity = await Celebrity.create(data)
+        const newCelebrity = await Celebrity.create(newCelebData)
         console.log(newCelebrity)
 
         response.redirect(`/celeb/${newCelebrity._id}`)
@@ -29,6 +30,20 @@ router.post("/create", async (request, response) => {
         response.render("celebrities/new-celebrity")
     }
 
+})
+
+router.get ("/celebrities", async (request, response) => {
+
+
+    try {
+        const findCelebrity = await Celebrity.find()
+        console.log("success")
+
+        response.render("celebrities/celebrities", { celebrities: findCelebrity});
+
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 module.exports = router
